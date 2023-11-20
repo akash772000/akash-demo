@@ -1,0 +1,87 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Process {
+int id;
+int burstTime;
+int arrivalTime;
+int priority;
+};
+
+void swap(struct Process *xp, struct Process *yp) {
+struct Process temp = *xp;
+*xp = *yp;
+*yp = temp;
+}
+
+// Function to perform FCFS scheduling
+void fcfs(struct Process *processes, int n) {
+int wt[n], tat[n];
+
+wt[0] = 0;
+
+tat[0] = processes[0].burstTime;
+
+for (int i = 1; i < n; i++) {
+wt[i] = wt[i - 1] + processes[i - 1].burstTime;
+tat[i] = wt[i] + processes[i].burstTime;
+}
+
+printf("\nFCFS Scheduling:\n");
+printf("Process\tBurst Time\tWaiting Time\tTurnaround
+Time\n");
+for (int i = 0; i < n; i++) {
+printf("%d\t%d\t\t%d\t\t%d\n", processes[i].id,
+processes[i].burstTime, wt[i], tat[i]);
+}
+}
+
+// Function to perform SJF scheduling
+void sjf(struct Process *processes, int n) {
+for (int i = 0; i < n - 1; i++) {
+for (int j = 0; j < n - i - 1; j++) {
+if (processes[j].burstTime > processes[j + 1].burstTime)
+{
+swap(&processes[j], &processes[j + 1]);
+
+}
+}
+}
+
+fcfs(processes, n);
+}
+
+// Function to perform Priority scheduling
+void priority(struct Process *processes, int n) {
+for (int i = 0; i < n - 1; i++) {
+for (int j = 0; j < n - i - 1; j++) {
+if (processes[j].priority > processes[j + 1].priority) {
+swap(&processes[j], &processes[j + 1]);
+}
+}
+}
+
+fcfs(processes, n);
+}
+
+int main() {
+int n;
+
+printf("Enter the number of processes: ");
+scanf("%d", &n);
+
+struct Process processes[n];
+
+for (int i = 0; i < n; i++) {
+processes[i].id = i + 1;
+printf("Enter arrival time, burst time, and priority for
+Process %d: ", i + 1);
+scanf("%d %d %d", &processes[i].arrivalTime,
+&processes[i].burstTime, &processes[i].priority);
+}
+
+sjf(processes, n);
+priority(processes, n);
+
+return 0;
+}
