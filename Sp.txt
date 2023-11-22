@@ -1,0 +1,243 @@
+A1) FPA method:-
+
+types = ["i/p", "file", "query", "i/f", "o/p"]
+counts = [60, 25, 35, 20, 25] 
+ratios = [(1, 6, 3), (1, 2, 2), None, None, (2, 2, 1)] 
+weight_factors = [0.5, 1.0, 1.5] 
+reliability = 0.65 
+complexity = 0.75 
+ufp = 0
+for i in range(len(types)): 
+   if ratios[i] is not None: 
+       simple, average, complex = ratios[i] 
+       ufp += (weight_factors[0] * simple + 
+       weight_factors[1] * average + weight_factors[2] * complex) * counts[i]
+tcf_input = input("Enter TCF (Technical Complexity Factor) value (0-5): ") 
+tcf = 0.01 * float(tcf_input) 
+ecf_input = input("Enter ECF (Environmental Complexity Factor) value (0-5): ") 
+ecf = 0.01 * float(ecf_input) 
+vaf = 0.65 + (tcf + ecf) 
+afp = ufp * vaf 
+print("Unadjusted Function Points (UFP):", ufp)
+print("Technical Complexity Factor (TCF):", tcf)
+print("Environmental Complexity Factor (ECF):", ecf) 
+print("Value Adjustment Factor (VAF):", vaf)
+print("Adjusted Function Points (AFP):", afp) 
+
+
+A2)HK Information Factor:-
+
+import java.util.ArrayList;
+import java.util.List;
+class Module {
+int ini;
+int outi;
+int weight;
+public Module(int ini, int outi, int weight) {
+this.ini = ini;
+this.outi = outi;
+this.weight = weight;
+}
+public int calculateHKi() {
+return weight * (int) Math.pow((outi * ini), 2);
+}
+}
+public class Main {
+public static void main(String[] args) {
+List<Module> modules = new ArrayList<>();
+modules.add(new Module(4, 3, 1));
+modules.add(new Module(3, 3, 1));
+int totalHK = 0;
+for (Module module : modules) {
+totalHK += module.calculateHKi();
+}
+System.out.println("Total HK Information Factor: " + totalHK);
+}
+}
+
+A3)PERT-CPM method:-
+
+import java.util.HashMap;
+import java.util.Map;
+
+class Task {
+String name;
+int optimisticTime;
+int expectedTime;
+int pessimisticTime;
+
+public Task(String name, int optimisticTime, int expectedTime, int
+pessimisticTime) {
+this.name = name;
+this.optimisticTime = optimisticTime;
+this.expectedTime = expectedTime;
+this.pessimisticTime = pessimisticTime;
+}
+public int calculatePERT() {
+return (optimisticTime + 4 * expectedTime + pessimisticTime) / 6;
+}
+}
+public class Main {
+public static void main(String[] args) {
+Map<String, Task> tasks = new HashMap<>();
+
+
+tasks.put("Task1", new Task("Task1", 2, 4, 6));
+tasks.put("Task2", new Task("Task2", 3, 5, 7));
+tasks.put("Task3", new Task("Task3", 1, 2, 3));
+
+
+for (Task task : tasks.values()) {
+int pertEstimate = task.calculatePERT();
+System.out.println("PERT estimate for " + task.name + ": " +
+pertEstimate);
+}
+}
+}
+
+A4)Fibonacci no-till 20:-
+
+def fibonacci(n):
+   fib_sequence = [0, 1]
+   for i in range(2, n):
+      next_fib = fib_sequence[-1] + fib_sequence[-2]
+      fib_sequence.append(next_fib)
+   return fib_sequence
+def main():
+    n = 20
+    fib_numbers = fibonacci(n)
+    print("Fibonacci Numbers up to", n, ":", fib_numbers)
+
+decision_points = 2 
+cyclomatic_complexity = decision_points + 1
+print("Cyclomatic Complexity:", cyclomatic_complexity)
+if __name__ == "__main__":main()
+
+A5)Future/Present Value Analysis
+
+import java.util.Scanner;
+public class Main {
+public static void main(String[] args) {
+Scanner scanner = new Scanner(System.in);
+System.out.print("Enter present value: ");
+double presentValue = scanner.nextDouble();
+System.out.print("Enter interest rate (in percentage): ");
+double interestRate = scanner.nextDouble() / 100;
+System.out.print("Enter number of periods: ");
+int periods = scanner.nextInt();
+System.out.print("Enter 'F' for Future Value or 'P' for Present Value: ");
+char choice = scanner.next().charAt(0);
+if (choice == 'F' || choice == 'f') {
+double futureValue = calculateFutureValue(presentValue, interestRate, periods);
+System.out.println("Future Value: " + futureValue);
+} else if (choice == 'P' || choice == 'p') {
+double presentValueResult = calculatePresentValue(presentValue, interestRate,
+periods);
+System.out.println("Present Value: " + presentValueResult);
+} else {
+System.out.println("Invalid choice. Please enter 'F' or 'P'.");
+}
+}
+public static double calculateFutureValue(double presentValue, double
+interestRate, int periods) {
+return presentValue * Math.pow(1 + interestRate, periods);
+}
+public static double calculatePresentValue(double futureValue, double
+interestRate, int periods) {
+return futureValue / Math.pow(1 + interestRate, periods);
+}
+}
+
+A5.2)Halstead's matrix 
+
+import math
+
+def calculate_halstead_metrics(source_code):
+    operators = set(['+', '-', '*', '/', '=', '>', '<', '==', '!=', '>=', '<=', '+=', '-=', '*='])
+    operands = set()
+
+    # Tokenizing the source code
+    tokens = source_code.replace('\n', ' ').replace('(', ' ').replace(')', ' ').split(' ')
+
+    # Counting operators and operands
+    for token in tokens:
+        if token in operators:
+            operands.add(token)
+        elif token.isidentifier() or token.isdigit():
+            operands.add(token)
+
+    # Calculating Halstead metrics
+    N = len(tokens)  # Program Length
+    n = len(set(tokens))  # Program Vocabulary
+    N1 = len(operators) + len(operands)  # Program Length (N1)
+    n1 = len(operators) + len(set(operands))  # Program Vocabulary (n1)
+
+    Volume = N * math.log2(n)  # Halstead Volume
+    Difficulty = (len(operators) / 2) * (len(operands) / len(set(operands)))  # Halstead Difficulty
+    Effort = Difficulty * Volume  # Halstead Effort
+    Time = Effort / (18)  # Halstead Time
+
+    return N, n, N1, n1, Volume, Difficulty, Effort, Time
+
+def quadratic_roots():
+    a = float(input("Enter coefficient a: "))
+    b = float(input("Enter coefficient b: "))
+    c = float(input("Enter coefficient c: "))
+
+    # Calculate discriminant
+    discriminant = b**2 - 4*a*c
+
+    # Calculate roots
+    if discriminant > 0:
+        root1 = (-b + math.sqrt(discriminant)) / (2*a)
+        root2 = (-b - math.sqrt(discriminant)) / (2*a)
+        print(f"Roots are real and different.\nRoot 1 = {root1:.2f}\nRoot 2 = {root2:.2f}")
+    elif discriminant == 0:
+        root1 = root2 = -b / (2*a)
+        print(f"Roots are real and the same.\nRoot 1 = Root 2 = {root1:.2f}")
+    else:
+        real_part = -b / (2*a)
+        imaginary_part = math.sqrt(-discriminant) / (2*a)
+        print(f"Roots are complex and different.\nRoot 1 = {real_part:.2f} + {imaginary_part:.2f}i")
+        print(f"Root 2 = {real_part:.2f} - {imaginary_part:.2f}i")
+
+if __name__ == "__main__":
+    source_code = """
+import math
+
+def quadratic_roots():
+    a = float(input("Enter coefficient a: "))
+    b = float(input("Enter coefficient b: "))
+    c = float(input("Enter coefficient c: "))
+
+    # Calculate discriminant
+    discriminant = b**2 - 4*a*c
+
+    # Calculate roots
+    if discriminant > 0:
+        root1 = (-b + math.sqrt(discriminant)) / (2*a)
+        root2 = (-b - math.sqrt(discriminant)) / (2*a)
+        print(f"Roots are real and different.\\nRoot 1 = {root1:.2f}\\nRoot 2 = {root2:.2f}")
+    elif discriminant == 0:
+        root1 = root2 = -b / (2*a)
+        print(f"Roots are real and the same.\\nRoot 1 = Root 2 = {root1:.2f}")
+    else:
+        real_part = -b / (2*a)
+        imaginary_part = math.sqrt(-discriminant) / (2*a)
+        print(f"Roots are complex and different.\\nRoot 1 = {real_part:.2f} + {imaginary_part:.2f}i")
+        print(f"Root 2 = {real_part:.2f} - {imaginary_part:.2f}i")
+
+if __name__ == "__main__":
+    quadratic_roots()
+"""
+
+    # Calculate and display Halstead metrics
+    N, n, N1, n1, Volume, Difficulty, Effort, Time = calculate_halstead_metrics(source_code)
+    print(f"Program Length (N): {N}")
+    print(f"Program Vocabulary (n): {n}")
+    print(f"Program Length (N1): {N1}")
+    print(f"Program Vocabulary (n1): {n1}")
+    print(f"Halstead Volume: {Volume:.2f}")
+    print(f"Halstead Difficulty: {Difficulty:.2f}")
+    print(f"Halstead Effort: {Effort:.2f}")
+    print(f"Halstead Time: {Time:.2f}")
